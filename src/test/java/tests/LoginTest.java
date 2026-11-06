@@ -102,7 +102,25 @@ public class LoginTest extends BaseTest {
                 "text",
                 "Password should be visible after clicking eye icon"
         );
+// Capture evidence while the password is visible
+        try {
+            java.nio.file.Path screenshotPath =
+                    java.nio.file.Paths.get("test-screenshots", "TC03_Password_Visible.png");
 
+            java.nio.file.Files.createDirectories(screenshotPath.getParent());
+
+            java.nio.file.Files.copy(
+                    ((org.openqa.selenium.TakesScreenshot) driver)
+                            .getScreenshotAs(org.openqa.selenium.OutputType.FILE)
+                            .toPath(),
+                    screenshotPath,
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING
+            );
+
+            System.out.println("TC03 visible password screenshot saved!");
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Unable to save TC03 screenshot", e);
+        }
         // Click eye icon again to hide password
         loginPage.clickPasswordVisibilityIcon();
 
